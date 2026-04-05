@@ -1,0 +1,205 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  name          String?
+  avatar        String?
+  role          UserRole  @default(CREATOR)
+  status        UserStatus @default(ACTIVE)
+  
+  stripeCustomerId String?
+  subscription  Subscription?
+  credits       Int       @default(0)
+  
+  voices        Voice[]
+  generations   Generation[]
+  integrations  PlatformIntegration[]
+  creditTransactions CreditTransaction[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum UserRole {
+  CREATOR
+  ADMIN
+  AGENCY
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  PENDING_VERIFICATION
+}
+
+model Subscription {
+  id              String           @id @default(uuid())
+  userId          String           @unique
+  user            User             @relation(fields: [userId], references: [id])
+  
+  plan            SubscriptionPlan
+  status          SubscriptionStatus @default(ACTIVE)
+  
+  maxVoices       Int
+  maxGenerations  Int
+  features        String[]
+  
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+enum SubscriptionPlan {
+  STARTER
+  PRO
+  AGENCY
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
+}
+
+model Voice {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  
+  name            String
+  elevenLabsId    String    @unique
+  
+  samples         VoiceSample[]
+  settings        Json?
+  
+  status          VoiceStatus @default(TRAINING)
+  
+  generationCount Int       @default(0)
+  lastUsedAt      DateTime?
+  
+  generations     Generation[]
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model VoiceSample {
+  id          String   @id @default(uuid())
+  voiceId     String
+  voice       Voice    @relation(fields: [voiceId], references: [id], onDelete: Cascade)
+  
+  fileUrl     String
+  duration    Float
+  fileSize    Int
+  
+  createdAt   DateTime @default(now())
+}
+
+enum VoiceStatus {
+  TRAINING
+  READY
+  ERROR
+  DISABLED
+}
+
+model Generation {
+  id              String           @id @default(uuid())
+  userId          String
+  user            User             @relation(fields: [userId], references: [id])
+  voiceId         String
+  voice           Voice            @relation(fields: [voiceId], references: [id])
+  
+  text            String
+  settings        Json?
+  
+  audioUrl        String?
+  duration        Float?
+  
+  status          GenerationStatus @default(PENDING)
+  errorMessage    String?
+  
+  creditsUsed     Int              @default(1)
+  
+  jobId           String?
+  
+  createdAt       DateTime         @default(now())
+  completedAt     DateTime?
+}
+
+enum GenerationStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model PlatformIntegration {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  
+  platform        Platform
+  
+  accessToken     String
+  refreshToken    String?
+  tokenExpiresAt  DateTime?
+  
+  settings        Json?
+  
+  status          IntegrationStatus @default(PENDING)
+  lastSyncAt      DateTime?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@unique([userId, platform])
+}
+
+enum Platform {
+  INSTAGRAM
+  TWITTER
+  TELEGRAM
+  WHATSAPP
+  EMAIL
+}
+
+enum IntegrationStatus {
+  PENDING
+  CONNECTED
+  DISCONNECTED
+  ERROR
+}
+
+model CreditTransaction {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  type        TransactionType
+  amount      Int
+  
+  generationId String?
+  description  String?
+  
+  createdAt   DateTime @default(now())
+}
+
+enum TransactionType {
+  PURCHASE
+  USAGE
+  BONUS
+  REFUND
+  SUBSCRIPTION
+}

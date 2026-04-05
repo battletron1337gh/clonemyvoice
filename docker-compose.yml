@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: clonemyvoice-db
+    environment:
+      POSTGRES_USER: clonemyvoice
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: clonemyvoice
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clonemyvoice"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: clonemyvoice-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: clonemyvoice-api
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://clonemyvoice:password@postgres:5432/clonemyvoice
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: dev-secret-key
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/api:/app
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: npm run start:dev
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: clonemyvoice-web
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+    depends_on:
+      - api
+    command: npm run dev
+
+volumes:
+  postgres_data:
+  redis_data:
