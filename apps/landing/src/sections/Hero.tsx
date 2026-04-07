@@ -1,112 +1,54 @@
-'use client'
-
-import { motion } from 'framer-motion'
-import { Mic, ArrowRight, Play } from 'lucide-react'
-import { useState } from 'react'
-
 export default function Hero() {
-  const [isPlaying, setIsPlaying] = useState(false)
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden py-20">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-background to-background" />
       
-      {/* Animated background shapes */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute -top-40 -right-40 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute -bottom-40 -left-40 w-96 h-96 bg-accent/20 rounded-full blur-3xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
+      {/* Background shapes - static, no animation */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/20 rounded-full blur-3xl opacity-50" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-accent/20 rounded-full blur-3xl opacity-50" />
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-white/10 mb-8"
-        >
-          <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-white/10 mb-8">
+          <span className="flex h-2 w-2 rounded-full bg-green-500" />
           <span className="text-sm text-gray-300">Now accepting beta users</span>
-        </motion.div>
+        </div>
 
         {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
-        >
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
           Your Voice,{' '}
           <span className="gradient-text">Infinite Possibilities</span>
-        </motion.h1>
+        </h1>
 
         {/* Subheadline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-xl sm:text-2xl text-gray-400 max-w-3xl mx-auto mb-10"
-        >
+        <p className="text-xl sm:text-2xl text-gray-400 max-w-3xl mx-auto mb-10">
           Clone your voice with AI. Reply to thousands of fans in your own voice while you sleep.
-        </motion.p>
+        </p>
 
         {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
-        >
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
           <a
             href="#waitlist"
             className="group inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-full transition-all duration-200 glow"
           >
             Join the Waitlist
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-5 h-5 group-hover:translate-x-1 transition-transform"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
           </a>
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-surface hover:bg-surface-light text-white font-semibold rounded-full border border-white/10 transition-all duration-200"
-          >
-            <Play className="w-5 h-5" />
+          <button className="inline-flex items-center gap-2 px-8 py-4 bg-surface hover:bg-surface-light text-white font-semibold rounded-full border border-white/10 transition-all duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-5 h-5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
             Watch Demo
           </button>
-        </motion.div>
+        </div>
 
         {/* Demo Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5 }}
-          className="relative max-w-2xl mx-auto"
-        >
+        <div className="relative max-w-2xl mx-auto">
           <div className="glass rounded-2xl p-6 sm:p-8">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <Mic className="w-6 h-6 text-white" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-6 h-6 text-white"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
               </div>
               <div className="text-left">
                 <p className="font-semibold text-white">AI Voice Demo</p>
@@ -114,21 +56,13 @@ export default function Hero() {
               </div>
             </div>
             
-            {/* Waveform visualization */}
+            {/* Simple waveform visualization - static */}
             <div className="flex items-center justify-center gap-1 h-16 mb-6">
-              {[...Array(40)].map((_, i) => (
-                <motion.div
+              {[40, 60, 35, 80, 50, 70, 45, 90, 55, 65, 40, 75, 50, 85, 45, 70, 55, 60, 40, 80, 50, 70, 45, 85, 55, 65, 40, 75, 50, 90, 45, 70, 55, 60, 40, 80, 50, 70, 45, 85].map((height, i) => (
+                <div
                   key={i}
                   className="w-1 bg-primary rounded-full"
-                  animate={{
-                    height: isPlaying ? [20, 40 + Math.random() * 40, 20] : 20,
-                  }}
-                  transition={{
-                    duration: 0.5,
-                    repeat: Infinity,
-                    delay: i * 0.02,
-                  }}
-                  style={{ height: 20 }}
+                  style={{ height: `${height}%` }}
                 />
               ))}
             </div>
@@ -139,31 +73,12 @@ export default function Hero() {
             </p>
           </div>
 
-          {/* Floating elements */}
-          <motion.div
-            className="absolute -top-4 -right-4 glass rounded-lg px-4 py-2 text-sm"
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity }}
-          >
+          {/* Floating stat - static */}
+          <div className="absolute -top-4 -right-4 glass rounded-lg px-4 py-2 text-sm">
             <span className="text-green-400">●</span> 2,847 DMs answered today
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <div className="w-6 h-10 rounded-full border-2 border-white/20 flex justify-center pt-2">
-          <motion.div
-            className="w-1.5 h-1.5 bg-white rounded-full"
-            animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }

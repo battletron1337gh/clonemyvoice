@@ -1,52 +1,33 @@
-'use client'
-
-import { Mic, Twitter, Instagram, Mail } from 'lucide-react'
-
-const footerLinks = {
-  Product: ['Features', 'Pricing', 'Integrations', 'API', 'Changelog'],
-  Company: ['About', 'Blog', 'Careers', 'Press', 'Partners'],
-  Resources: ['Documentation', 'Help Center', 'Community', 'Templates', 'Guides'],
-  Legal: ['Privacy', 'Terms', 'Cookie Policy', 'GDPR'],
-}
-
 export default function Footer() {
+  const links = {
+    Product: ['Features', 'Pricing', 'Integrations', 'API', 'Changelog'],
+    Company: ['About', 'Blog', 'Careers', 'Press', 'Partners'],
+    Resources: ['Documentation', 'Help Center', 'Community', 'Templates', 'Guides'],
+    Legal: ['Privacy', 'Terms', 'Cookie Policy', 'GDPR'],
+  }
+
   return (
-    <footer className="bg-background border-t border-white/10">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
-          {/* Brand */}
-          <div className="col-span-2">
+    <footer className="py-16 px-4 sm:px-6 lg:px-8 border-t border-white/10">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-5 gap-12 mb-12">
+          <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <Mic className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-xl font-bold text-white">CloneMyVoice</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-6 h-6 text-primary"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
+              <span className="font-bold text-xl">CloneMyVoice</span>
             </div>
-            <p className="text-gray-400 mb-6 max-w-xs">
+            <p className="text-gray-400 text-sm">
               Clone your voice with AI. Reply to thousands of fans in your own voice while you sleep.
             </p>
-            <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-gray-400 hover:text-white hover:bg-surface-light transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-gray-400 hover:text-white hover:bg-surface-light transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-surface flex items-center justify-center text-gray-400 hover:text-white hover:bg-surface-light transition-colors">
-                <Mail className="w-5 h-5" />
-              </a>
-            </div>
           </div>
 
-          {/* Links */}
-          {Object.entries(footerLinks).map(([category, links]) => (
+          {Object.entries(links).map(([category, items]) => (
             <div key={category}>
-              <h4 className="font-semibold text-white mb-4">{category}</h4>
-              <ul className="space-y-3">
-                {links.map((link) => (
-                  <li key={link}>
+              <h4 className="font-semibold mb-4">{category}</h4>
+              <ul className="space-y-2">
+                {items.map((item) => (
+                  <li key={item}>
                     <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
-                      {link}
+                      {item}
                     </a>
                   </li>
                 ))}
@@ -55,7 +36,7 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm">
             © 2026 CloneMyVoice. All rights reserved.
           </p>
