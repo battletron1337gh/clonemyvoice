@@ -7,27 +7,27 @@ export declare class VoicesService {
     constructor(prisma: PrismaService, elevenlabs: ElevenLabsService);
     listVoices(userId: string): Promise<{
         id: string;
-        name: string;
-        status: import(".prisma/client").$Enums.VoiceStatus;
-        createdAt: Date;
-        updatedAt: Date;
         userId: string;
+        name: string;
         elevenLabsId: string;
         settings: import("@prisma/client/runtime/library").JsonValue | null;
+        status: import(".prisma/client").$Enums.VoiceStatus;
         generationCount: number;
         lastUsedAt: Date | null;
+        createdAt: Date;
+        updatedAt: Date;
     }[]>;
     createVoice(userId: string, dto: CreateVoiceDto): Promise<{
         id: string;
-        name: string;
-        status: import(".prisma/client").$Enums.VoiceStatus;
-        createdAt: Date;
-        updatedAt: Date;
         userId: string;
+        name: string;
         elevenLabsId: string;
         settings: import("@prisma/client/runtime/library").JsonValue | null;
+        status: import(".prisma/client").$Enums.VoiceStatus;
         generationCount: number;
         lastUsedAt: Date | null;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     getVoice(userId: string, voiceId: string): Promise<{
         samples: {
@@ -40,27 +40,27 @@ export declare class VoicesService {
         }[];
     } & {
         id: string;
-        name: string;
-        status: import(".prisma/client").$Enums.VoiceStatus;
-        createdAt: Date;
-        updatedAt: Date;
         userId: string;
+        name: string;
         elevenLabsId: string;
         settings: import("@prisma/client/runtime/library").JsonValue | null;
+        status: import(".prisma/client").$Enums.VoiceStatus;
         generationCount: number;
         lastUsedAt: Date | null;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     updateVoice(userId: string, voiceId: string, dto: UpdateVoiceDto): Promise<{
         id: string;
-        name: string;
-        status: import(".prisma/client").$Enums.VoiceStatus;
-        createdAt: Date;
-        updatedAt: Date;
         userId: string;
+        name: string;
         elevenLabsId: string;
         settings: import("@prisma/client/runtime/library").JsonValue | null;
+        status: import(".prisma/client").$Enums.VoiceStatus;
         generationCount: number;
         lastUsedAt: Date | null;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     deleteVoice(userId: string, voiceId: string): Promise<{
         success: boolean;
@@ -68,10 +68,10 @@ export declare class VoicesService {
     generateSpeech(userId: string, voiceId: string, dto: GenerateSpeechDto): Promise<{
         generation: {
             id: string;
-            status: import(".prisma/client").$Enums.GenerationStatus;
-            createdAt: Date;
             userId: string;
             settings: import("@prisma/client/runtime/library").JsonValue | null;
+            status: import(".prisma/client").$Enums.GenerationStatus;
+            createdAt: Date;
             voiceId: string;
             duration: number | null;
             text: string;
